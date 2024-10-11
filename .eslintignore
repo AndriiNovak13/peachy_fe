@@ -1,0 +1,17 @@
+node_modules
+.next/
+.husky/
+coverage
+next-env.d.ts
+next.config.js
+jest.setup.js
+jest.config.js
+serviceWorker.ts
+react-app-env.d.ts
+scripts/
+build/
+jest.config.js
+jest.setup.js
+.babelrc
+vite-env.d.ts
+vite.config.ts

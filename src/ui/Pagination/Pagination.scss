@@ -1,0 +1,11 @@
+.rc-pagination {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  list-style: none;
+
+  &-total-text {
+    flex-grow: 1;
+    margin-right: 20px;
+  }
+}
