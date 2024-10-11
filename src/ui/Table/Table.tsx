@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import {
   useReactTable,
   flexRender,
@@ -41,17 +40,14 @@ const Table = <
   columns,
   data,
   dataItemsName = "items",
-  navigationPath,
+  onRowClick,
   onChangeSorting,
   onSelectedRowsChange,
   resetSelection,
   footer
 }: TableProps<Data>) => {
-  const navigate = useNavigate();
   const [sorting, setSorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-
-  const { pathname } = location;
 
   const onSortingChange: OnChangeFn<SortingState> = (getSortingState) => {
     const sortingState =
@@ -105,13 +101,6 @@ const Table = <
     onSelectedRowsChange(mappedRows);
   }, [table, onSelectedRowsChange, resetSelection, rowSelection]);
 
-  const onRowClick = (value: Data) => {
-    return () =>
-      navigationPath && value
-        ? navigate(navigationPath, { state: pathname })
-        : null;
-  };
-
   return (
     <Box>
       <ChakraTable>
@@ -162,8 +151,12 @@ const Table = <
           {table.getRowModel().rows.map((row) => (
             <Tr
               key={row.id}
-              onClick={onRowClick(row.original)}
-              cursor={navigationPath ? "pointer" : "unset"}
+              onClick={() => {
+                if (onRowClick) {
+                  onRowClick(row);
+                }
+              }}
+              cursor={onRowClick ? "pointer" : "auto"}
             >
               {row.getVisibleCells().map((cell) => {
                 const meta: ColumnMeta | undefined = cell.column.columnDef.meta;

@@ -1,4 +1,4 @@
-import { ColumnDef, ColumnSort } from "@tanstack/react-table";
+import { ColumnDef, ColumnSort, Row } from "@tanstack/react-table";
 import { ReactNode } from "react";
 
 export interface TableProps<Data> {
@@ -6,7 +6,7 @@ export interface TableProps<Data> {
   columns: Array<ColumnDef<Data>>;
   data: Data[];
   dataItemsName?: string;
-  navigationPath?: string;
+  onRowClick?: (row: Row<Data>) => void;
   onChangeSorting?: (data: ColumnSort | null) => void;
   onSelectedRowsChange?: (rows: number[] | unknown[]) => void;
   resetSelection?: boolean;

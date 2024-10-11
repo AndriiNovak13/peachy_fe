@@ -1,6 +1,7 @@
 import { ChangeEventHandler, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-import { ColumnDef } from "@tanstack/react-table";
+import { ColumnDef, Row } from "@tanstack/react-table";
 import { Flex, Icon } from "@chakra-ui/react";
 
 import { Input, Pagination, Table } from "@/ui";
@@ -16,6 +17,7 @@ import { useBoolean, useDebounce, usePagination } from "@/shared/hooks";
 import { SearchIcon } from "@/assets/icons";
 
 const UsersTable = () => {
+  const navigate = useNavigate();
   const [user, setUser] = useState<IUser>();
   const { page, perPage, search, onChangePage, onSearch } = usePagination();
 
@@ -45,6 +47,10 @@ const UsersTable = () => {
     params: { page, perPage, search: debouncedSearchValue }
   });
 
+  const onClickUser = (row: Row<IUser>) => {
+    navigate(`/users/${row.original.id}`);
+  };
+
   const { columns } = useUsersColumns({ onOpenEdit, onOpenDelete, setUser });
 
   return (
@@ -61,7 +67,7 @@ const UsersTable = () => {
         data={users}
         columns={columns as Array<ColumnDef<IUser>>}
         dataItemsName="users"
-        navigationPath={`/users/${user?.id}`}
+        onRowClick={onClickUser}
         isLoading={isLoadingUsers}
         footer={
           <Pagination
